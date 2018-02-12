@@ -1,4 +1,6 @@
 export default {
-    joke1: state => state.joke1,
     jokes: state => state.jokes,
-}
+    categories: state => state.categories,
+    selectedCategory: state => state.selectedCategory,
+    loading: state => state.loading,
+};
