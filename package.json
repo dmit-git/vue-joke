@@ -13,6 +13,7 @@
     "masonry-layout": "^4.2.1",
     "material-design-icons": "^3.0.1",
     "vue": "^2.5.11",
+    "vue-router": "^3.0.1",
     "vuetify": "^0.17.7",
     "vuex": "^3.0.1"
   },

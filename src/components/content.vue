@@ -5,7 +5,7 @@
           <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
             <v-layout d-block class="grid-sizer"></v-layout>
             <v-layout d-block v-for="(joke, index) in jokes" :key="index" class="grid-item" >
-              <Joke :joke="joke"></Joke>
+              <Joke :joke="joke" :action="addToFavs"></Joke>
             </v-layout>                
         </div>
       </v-container> 
@@ -34,7 +34,14 @@ export default {
       return this.$store.getters.loading;
     },
   },
-  
+  methods: {
+    addToFavs(joke) {
+      this.$store.dispatch('addToFavorites', joke);
+    },
+    removeFromFavs(joke) {
+      this.$store.dispatch('removeFromFavorites', joke);
+    },
+  },
   mounted() {
     var grid = document.querySelector('.grid');
     this.msnry = new Masonry( grid, {
@@ -51,6 +58,7 @@ export default {
         // DOM updated
         this.msnry.reloadItems();
         this.msnry.layout();
+        window.scrollTo(0,document.querySelector(".grid").scrollHeight);
       }.bind(this))
     },
   },

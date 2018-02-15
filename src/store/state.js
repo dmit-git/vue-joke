@@ -3,4 +3,5 @@ export default{
     categories: [],
     selectedCategory: '',
     loading: false,
-}
+    favorites: [],
+};

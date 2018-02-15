@@ -30,4 +30,19 @@ export default {
     setCategory({ commit }, category){
         commit(types.SELECTED_CATEGORY, category);
     },
+    searchJoke({ commit }, searchQuery){        
+        commit(types.LOADING_ON);
+        fetch(`https://api.chucknorris.io/jokes/search?query=${searchQuery}`, {
+            method: 'GET'
+        })
+        .then(resp => resp.json())
+        .then((json) => {
+            commit(types.EMPTY_JOKES);            
+            commit(types.ADD_JOKE, json.result);
+            commit(types.LOADING_OFF);
+        });
+    },
+    addToFavorites({ commit }, joke) {
+        commit(types.ADD_TO_FAVORITES, joke);
+    }
 };

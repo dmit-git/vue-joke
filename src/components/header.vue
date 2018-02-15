@@ -2,22 +2,26 @@
 <div>
   <v-navigation-drawer fixed v-model="drawer" app>
       <v-list dense>
-        <v-list-tile >
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Contact</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <router-link to="/">
+          <v-list-tile >
+            <v-list-tile-action>
+              <v-icon>home</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Home</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </router-link>
+        <router-link to="/favorites">  
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-icon>contact_mail</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Contact</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </router-link>
       </v-list>
       <v-divider></v-divider>
     </v-navigation-drawer>
@@ -41,6 +45,7 @@
               :type="'text'"
               color="primary"
               single-line
+              @keyup.enter="search"
             ></v-text-field>
         </v-container>
       </v-toolbar>
@@ -68,6 +73,9 @@ export default {
   },
   methods: {
     getIconString: (string) => { return iconMapper.getIconString(string); },
+    search: function() {
+      this.$store.dispatch('searchJoke', this.searchQry);
+    },
   },
   watch: {
     selectedCat(val) {
