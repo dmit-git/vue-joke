@@ -1,6 +1,11 @@
 # jokester
 
-> A Vue.js project
+> A Vue.js project for displaying and favorizing jokes from open source Chuck Norris API.
+> https://api.chucknorris.io/
+> Utilized vuejs, vuex, vuetify, vue-router, webpack, vue-loader, localforage, masonry-layout, material-design icons etc.
+
+> Demo at http://aldinezi.tec/jokester
+
 
 ## Build Setup
 

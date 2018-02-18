@@ -1,6 +1,8 @@
+import localforage from "localforage";
+
 export default{
     jokes: [],
-    categories: [],
+    categories: ["uncategorized"],
     selectedCategory: '',
     loading: false,
     favorites: [],
