@@ -54,4 +54,7 @@ export default {
     clearJokesList({ commit }) {
         commit(types.EMPTY_JOKES);
     },
+    removeJokeById({commit}, id) {
+        commit(types.REMOVE_JOKE_BY_ID, id);
+    }
 };

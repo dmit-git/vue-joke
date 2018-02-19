@@ -3,8 +3,11 @@
         {{joke.value}}
         <v-card-actions class="white">
                 <v-spacer></v-spacer>
-                <v-btn flat icon :color="favIconColor" @click="action(joke)">
+                <v-btn flat icon :color="favIconColor" @click="action(joke)" title="Add to favorites!">
                   <v-icon>thumb_up</v-icon>
+                </v-btn>
+                <v-btn flat small icon color="pink" @click="remove(joke.id)" title="Remove from list." v-if="!favs">
+                    <v-icon>clear</v-icon>
                 </v-btn>
         </v-card-actions>
     </v-card>
@@ -19,6 +22,10 @@ export default {
       action: {
           required: true,
           type: Function,
+      },
+      favs: {
+          required: true,
+          type: Boolean,
       }
   },
   computed: {
@@ -26,8 +33,12 @@ export default {
       return this.joke.fav ? 'primary darken-1'  : 'grey lighten-3';
     },
   },
+  methods: {
+    remove(id) {
+        this.$store.dispatch('removeJokeById', id);
+    },
+  },
 }
 </script>
 <style>
-
 </style>

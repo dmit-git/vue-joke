@@ -9,4 +9,5 @@ export default {
     BATCH_ADD: 'BATCH_ADD',
     TOGGLE_FAV: 'TOGGLE_FAV',
     LOCAL_JOKES: 'LOCAL_JOKES',
+    REMOVE_JOKE_BY_ID: 'REMOVE_JOKE_BY_ID',
 };

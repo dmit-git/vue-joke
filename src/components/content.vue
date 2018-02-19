@@ -6,7 +6,7 @@
             <v-layout d-block class="grid-sizer"></v-layout>
             <v-layout d-block v-for="(joke, index) in jokes" :key="index" class="grid-item" 
               v-if="!!joke && shouldJokeDisplay(joke)">
-              <Joke :joke="joke" :action="toggleFav"></Joke>
+              <Joke :joke="joke" :action="toggleFav" :favs="displayFavorites"></Joke>
             </v-layout>                
         </div>
       </v-container> 

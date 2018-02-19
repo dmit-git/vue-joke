@@ -9,7 +9,7 @@ export const mutations = {
             if(payload.category == null){
                 payload.category = 'uncategorized';
             }
-            const indexInFavs = state.favorites.findIndex(val => val.id === joke.id);
+            const indexInFavs = state.favorites.findIndex(val => val.id === payload.id);
             payload.fav = indexInFavs>-1;
             const jokes = _.cloneDeep(state.jokes);
             jokes.push(payload);
@@ -75,5 +75,11 @@ export const mutations = {
     },
     [types.LOCAL_JOKES](state, jokes) {
         state.favorites.push(...jokes);
-    }
+    },
+    [types.REMOVE_JOKE_BY_ID](state, id) {
+        const index = state.jokes.findIndex(val => val.id === id);
+        var jokes = _.cloneDeep(state.jokes);
+        jokes.splice(index, 1);
+        Vue.set(state, 'jokes', jokes);
+    },
 };
