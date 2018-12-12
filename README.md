@@ -4,7 +4,7 @@
 > https://api.chucknorris.io/
 > Utilized vuejs, vuex, vuetify, vue-router, webpack, vue-loader, localforage, masonry-layout, material-design icons etc.
 
-> Demo at http://aldinezi.tech/jokester
+> Demo at https://vue-jokester.aldinezi.info/
 
 
 ## Build Setup
