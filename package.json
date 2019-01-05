@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@sentry/browser": "^4.4.2",
     "localforage": "^1.7.3",
     "lodash": "^4.17.11",
     "masonry-layout": "^4.2.2",
@@ -43,10 +44,14 @@
     },
     "rules": {
       "no-param-reassign": 0,
-      "import/extensions": ["off", "always", {
-        "js": "never",
-        "vue": "never"
-      }]
+      "import/extensions": [
+        "off",
+        "always",
+        {
+          "js": "never",
+          "vue": "never"
+        }
+      ]
     }
   },
   "postcss": {
