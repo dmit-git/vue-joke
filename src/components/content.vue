@@ -16,7 +16,7 @@ import Vue from 'vue';
 import Masonry from 'masonry-layout';
 import localforage from 'localforage';
 import _filter from 'lodash/filter';
-import Joke from './joke.vue';
+import Joke from './joke';
 
 export default {
   name: 'Content',
