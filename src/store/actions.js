@@ -1,13 +1,11 @@
 import types from './mutation-types';
-import getters from './getters';
-
 
 // https://api.chucknorris.io/jokes/random
 
 export default {
   fetchRandJoke({ commit }) {
     commit(types.LOADING_ON);
-    const { selectedCategory } = getters;
+    const { selectedCategory } = this.getters;
     const categoryString = selectedCategory !== '' && selectedCategory !== 'uncategorized' ? `?category=${selectedCategory}` : '';
     fetch(`https://api.chucknorris.io/jokes/random${categoryString}`, {
       method: 'GET',
