@@ -1,117 +1,117 @@
 <template>
   <v-content>
       <v-container>
-        <div class="grid" 
+        <div class="grid"
           data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
             <v-layout d-block class="grid-sizer"></v-layout>
-            <v-layout d-block v-for="(joke, index) in jokes" :key="index" class="grid-item" 
-              v-if="!!joke && shouldJokeDisplay(joke)">
-              <Joke :joke="joke" :action="toggleFav" :favs="displayFavorites"></Joke>
-            </v-layout>                
+            <v-layout d-block v-for="(joke, index) in jokes" :key="index" class="grid-item">
+              <Joke :joke="joke" :action="toggleFav" :favs="favorites"></Joke>
+            </v-layout>
         </div>
-      </v-container> 
+      </v-container>
     </v-content>
 </template>
 <script>
 import Vue from 'vue';
 import Masonry from 'masonry-layout';
 import localforage from 'localforage';
-import Joke from './joke';
+import _filter from 'lodash/filter';
+import Joke from './joke.vue';
 
 export default {
   name: 'Content',
   components: {
-    Joke
+    Joke,
   },
-  data () {
+  data() {
     return {
       msnry: null,
-      displayFavorites: false,
     };
   },
   computed: {
     jokes() {
-      if(this.displayFavorites){
-        return this.$store.getters.favorites;
+      if (this.favorites) {
+        // eslint-disable-next-line
+        return _filter(this.$store.getters.favorites, (joke) => {
+          return !!joke && joke.fav && this.shouldJokeDisplay(joke);
+        });
       }
-      return this.$store.getters.jokes;
+      // eslint-disable-next-line
+      return _filter(this.$store.getters.jokes, (joke) => {
+        return !!joke && (!this.categoryIsSelected || this.shouldJokeDisplay(joke));
+      });
+    },
+    categoryIsSelected() {
+      return this.category !== '';
     },
     category() {
       return this.$store.getters.selectedCategory;
     },
+    favorites() {
+      return this.$route.name === 'Favorites';
+    },
   },
   methods: {
     toggleFav(joke) {
-      this.$store.dispatch('toggleFavorites', joke).then(()=>{
-        if(this.displayFavorites)
-          this.layout();
+      this.$store.dispatch('toggleFavorites', joke).then(() => {
+        if (this.favorites) this.layout();
       });
     },
     jokeHasCategory(joke) {
-      if(typeof joke !== 'undefined' || joke !== null)
+      if (typeof joke !== 'undefined' || joke !== null) {
         return joke.category !== null || typeof joke.category !== 'undefined';
+      }
       return false;
-    },
-    categoryIsSelected() {
-      return this.category != "";
     },
     jokeInSelectedCat(joke) {
-        return joke.category.includes(this.category);
+      return joke.category.includes(this.category);
     },
     shouldJokeDisplay(joke) {
-      if(this.jokeInSelectedCat(joke) && this.categoryIsSelected()) return true;
-      if(!this.categoryIsSelected() && !this.displayFavorites) return true;
-      if(this.displayFavorites && joke.fav) return true;
-      return false;
+      return (this.jokeInSelectedCat(joke) && this.categoryIsSelected) || !this.categoryIsSelected;
     },
     layout() {
       Vue.nextTick()
-      .then(function () {
+        .then(() => {
         // DOM updated
-        this.msnry.reloadItems();
-        this.msnry.layout();
-        window.scrollTo(0,document.querySelector(".grid").scrollHeight);
-      }.bind(this));
+          this.msnry.reloadItems();
+          this.msnry.layout();
+          window.scrollTo(0, document.querySelector('.grid').scrollHeight);
+        });
     },
   },
   mounted() {
-    var grid = document.querySelector('.grid');
-    this.msnry = new Masonry( grid, {
+    const grid = document.querySelector('.grid');
+    this.msnry = new Masonry(grid, {
       itemSelector: '.grid-item',
       columnWidth: '.grid-sizer',
       percentPosition: true,
-      gutter: 10
+      gutter: 10,
     });
     localforage.getItem('favorites').then((value) => {
       this.$store.dispatch('localFavorites', value);
-    }).catch(() => {
-      console.log("No local favrites.")
-    })
+    // eslint-disable-next-line no-console
+    }).catch(() => console.info('No local favorites.'));
   },
   watch: {
-    category: function() {
+    category() {
       this.layout();
     },
-    jokes: function(newJokes, oldJokes) {
-      if(oldJokes.length != newJokes.length){
+    jokes(newJokes, oldJokes) {
+      if (oldJokes.length !== newJokes.length) {
         this.layout();
       }
     },
-    '$route' (to, from) {
-      if(to.name == 'Favorites'  && to.name != from.name){
-        this.displayFavorites = true;
-        this.layout();
-      }
-      if(to.name == "Jokes" && to.name != from.name) {
-        this.displayFavorites = false; 
-        this.layout();  
-      }
-    }
+    $route() {
+      this.layout();
+    },
   },
-}
+};
 </script>
 <style lang="scss">
 @import "../../node_modules/vuetify/dist/vuetify.min";
+.grid {
+  padding-top: 60px;
+}
 
 @media (min-width: 1280px) {
     /* For mobile phones: */
@@ -137,7 +137,7 @@ export default {
 .grid-item{
   margin-bottom: 10px;
   .card{
-    padding: 10px;    
+    padding: 10px;
   }
 }
 

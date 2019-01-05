@@ -14,11 +14,11 @@ import Header from './components/header';
 export default {
   name: 'app',
   components: {
-     Content,
-     Footer,
-     Header
-  }, 
-}
+    Content,
+    Footer,
+    Header,
+  },
+};
 </script>
 
 <style lang="scss">
